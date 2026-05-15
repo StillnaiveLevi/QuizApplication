@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class QuestionService {
+public class QuizService {
 
     @Autowired
     private QuestionsDao questionsDao;
@@ -27,13 +27,16 @@ public class QuestionService {
         return questionsDao.findRandomQuestionsByCategory(category, num);
     }
 
-    public ResponseEntity<String> createQuiz(String category, String difficulty, 
-                                           String title, int numQuestions) {
+    public ResponseEntity<String> createQuiz(String category, 
+                                           String difficulty, 
+                                           String title, 
+                                           int numQuestions) {
         
         List<Questions> questions = findRandomQuestionsByCategory(category, numQuestions);
         
         if (questions.isEmpty()) {
-            return ResponseEntity.badRequest().body("No questions found for category: " + category);
+            return ResponseEntity.badRequest()
+                    .body("No questions found for category: " + category);
         }
 
         Quiz quiz = new Quiz();
@@ -44,16 +47,6 @@ public class QuestionService {
 
         quizDao.save(quiz);
 
-        return ResponseEntity.ok("Quiz created successfully with ID: " + quiz.getId());
-    }
-
-    public List<Quiz> getAllQuizes() {
-    return quizDao.findAll();
-    }
-
-    public ResponseEntity<Quiz> getQuizById(int id) {
-        return quizDao.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok("Quiz created successfully! ID: " + quiz.getId());
     }
 }

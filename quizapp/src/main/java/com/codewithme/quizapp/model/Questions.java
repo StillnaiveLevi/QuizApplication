@@ -2,20 +2,21 @@ package com.codewithme.quizapp.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
-public class Questions{
+public class Questions {
 
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String question_text;
+
+    private String questionText;
     private String category;
     private String difficulty;
-    private java.time.LocalDateTime created_at;
-
-    
+    private LocalDateTime createdAt;
 }
